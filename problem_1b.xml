@@ -1,0 +1,63 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+
+<simulation name="problem 1b" type="fixed source">
+  <histories start="1" end="10000000" />
+</simulation>
+
+<distributions>
+  <delta name="pos dist" datatype="point" x = "1.0e-9" y = "0.0" z = "0.0" />
+  <delta name="dir dist" datatype="point" x = "1.0"    y = "0.0" z = "0.0" />
+</distributions>
+
+<nuclides>
+  <nuclide name="nuc1"> 
+    <capture xs="2.0"/>
+  </nuclide>
+  <nuclide name="nuc2">
+    <capture xs="0.5"/>
+  </nuclide>
+</nuclides>
+
+<materials>
+  <material name="mat1" density="1.0">
+    <nuclide name="nuc1" frac="1.0"/>
+  </material>
+  <material name="mat2" density="1.0">
+    <nuclide name="nuc2" frac="1.0"/>
+  </material>
+</materials>
+
+<surfaces>
+  <plane name="px1" a="1.0" b="0.0" c="0.0" d="0.0"/>
+  <plane name="px2" a="1.0" b="0.0" c="0.0" d="1.0"/>
+  <plane name="px3" a="1.0" b="0.0" c="0.0" d="5.0"/>
+</surfaces>
+
+<cells>
+  <cell name="left slab" material="mat1">
+    <surface name="px1" sense="+1"/>
+    <surface name="px2" sense="-1"/>
+  </cell>
+  <cell name="right slab" material="mat2">
+    <surface name="px2" sense="+1"/>
+    <surface name="px3" sense="-1"/>
+  </cell>
+  <cell name="left outside" importance="0.0">
+    <surface name="px1" sense="-1"/>
+  </cell>
+  <cell name="right outside" importance="0.0">
+    <surface name="px3" sense="+1"/>
+  </cell>
+</cells>
+
+<estimators>
+  <current name="transmission">
+    <surface name="px3"/>
+  </current>
+</estimators>
+
+<source>
+  <position  distribution="pos dist"/>
+  <direction distribution="dir dist"/>
+</source>
+
